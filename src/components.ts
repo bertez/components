@@ -6,11 +6,15 @@ interface IPanelListDef {
 class PanelList extends HTMLUListElement {
   tree: IPanelListDef[];
   stack: IPanelListDef[][];
+  cache: Map<IPanelListDef[], Node[]>;
+
   constructor() {
     super();
 
-    this.tree = PanelList.createULTree(this);
+    this.tree = PanelList.createULTree(this as Node);
     this.stack = [];
+
+    this.cache = new Map();
 
     this.clearPanel();
     this.forwardPanel(this.tree);
@@ -45,6 +49,16 @@ class PanelList extends HTMLUListElement {
   private setPanel = (root: IPanelListDef[]) => {
     this.clearPanel();
 
+    const rootCache = this.cache.get(root);
+
+    if (rootCache && rootCache.length) {
+      for (const node of rootCache) {
+        this.appendChild(node);
+      }
+
+      return;
+    }
+
     const navItem = document.createElement('li');
     navItem.setAttribute('role', 'navigation');
 
@@ -56,9 +70,11 @@ class PanelList extends HTMLUListElement {
     navItem.appendChild(back);
     this.appendChild(navItem);
 
-    if (this.stack.length === 1) {
+    if (this.lastPanel === this.tree) {
       back.setAttribute('disabled', 'disabled');
     }
+
+    this.cache.set(root, [navItem]);
 
     for (const item of root) {
       const panelItem = document.createElement('li');
@@ -73,6 +89,8 @@ class PanelList extends HTMLUListElement {
       } else {
         panelItem.appendChild(item.text);
       }
+      const f = this.cache.get(root);
+      f && f.push(panelItem);
 
       this.appendChild(panelItem);
     }
