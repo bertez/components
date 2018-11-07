@@ -12,16 +12,16 @@ class PanelList extends HTMLUListElement {
     this.tree = PanelList.createULTree(this);
     this.stack = [];
 
-    this.clearList();
+    this.clearPanel();
     this.forwardPanel(this.tree);
-    this.classList.add('is-ready');
+    this.removeAttribute('hidden');
   }
 
   get lastPanel(): IPanelListDef[] {
     return this.stack[this.stack.length - 1];
   }
 
-  static createULTree = (node: Node) => {
+  static createULTree = (node: Node): IPanelListDef[] => {
     const isValid = (node: Node) =>
       node.nodeName === 'LI' &&
       node.childNodes.length > 0 &&
@@ -32,39 +32,32 @@ class PanelList extends HTMLUListElement {
       .map(item => {
         const [text, children] = Array.from(item.childNodes);
 
-        const def: IPanelListDef = {
+        return {
           text,
-          children: children ? PanelList.createULTree(children) : []
+          children:
+            children && children.nodeName === 'UL'
+              ? PanelList.createULTree(children)
+              : []
         };
-
-        return def;
       });
   };
 
-  private clearList = () => {
-    while (this.firstChild) {
-      this.firstChild.remove();
-    }
-  };
-
-  private getStackLastElement = () => {
-    return this.stack[this.stack.length - 1];
-  };
-
   private setPanel = (root: IPanelListDef[]) => {
-    this.clearList();
+    this.clearPanel();
 
-    if (this.stack.length > 1) {
-      const navItem = document.createElement('li');
-      navItem.classList.add('is-navigation');
+    const navItem = document.createElement('li');
+    navItem.setAttribute('role', 'navigation');
 
-      const back = document.createElement('button');
-      back.innerText = this.getAttribute('data-back') || '<';
+    const back = document.createElement('button');
+    back.innerText = this.getAttribute('data-back') || '<';
 
-      back.onclick = () => this.backwardPanel();
+    back.onclick = () => this.backwardPanel();
 
-      navItem.appendChild(back);
-      this.appendChild(navItem);
+    navItem.appendChild(back);
+    this.appendChild(navItem);
+
+    if (this.stack.length === 1) {
+      back.setAttribute('disabled', 'disabled');
     }
 
     for (const item of root) {
@@ -72,10 +65,13 @@ class PanelList extends HTMLUListElement {
       panelItem.appendChild(item.text);
 
       if (item.children.length) {
-        panelItem.classList.add('has-children');
-        panelItem.onclick = () => this.forwardPanel(item.children);
+        const next = document.createElement('button');
+        next.appendChild(item.text);
+        next.onclick = () => this.forwardPanel(item.children);
+
+        panelItem.appendChild(next);
       } else {
-        panelItem.classList.add('is-terminal');
+        panelItem.appendChild(item.text);
       }
 
       this.appendChild(panelItem);
@@ -90,6 +86,12 @@ class PanelList extends HTMLUListElement {
   backwardPanel = () => {
     this.stack.pop();
     this.setPanel(this.lastPanel);
+  };
+
+  private clearPanel = () => {
+    while (this.firstChild) {
+      this.firstChild.remove();
+    }
   };
 }
 
