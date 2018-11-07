@@ -1,5 +1,5 @@
 interface IPanelListDef {
-  text: string;
+  text: Node;
   children: IPanelListDef[];
 }
 
@@ -12,58 +12,30 @@ class PanelList extends HTMLUListElement {
     this.tree = PanelList.createULTree(this);
     this.stack = [];
 
-    const style = document.createElement('style');
-
-    style.textContent = `
-      .has-children {
-        font-weight: bold;
-        cursor: pointer;
-      }
-
-      .is-navigation {
-        list-style: none;
-      }
-      
-      .is-terminal {
-        color: blue;
-        text-decoration: underline;
-        cursor: pointer;
-      }
-    `;
-
-    this.parentElement && this.parentElement.appendChild(style);
-
     this.clearList();
-    this.classList.add('panel-list');
     this.forwardPanel(this.tree);
+    this.classList.add('is-ready');
   }
 
   get lastPanel(): IPanelListDef[] {
     return this.stack[this.stack.length - 1];
   }
 
-  static createULTree = (node: HTMLUListElement) => {
-    const items = node.querySelectorAll(':scope > li');
+  static createULTree = (node: Node) => {
+    const isValid = (node: Node) =>
+      node.nodeName === 'LI' &&
+      node.childNodes.length > 0 &&
+      ['#text', 'A'].includes(node.childNodes[0].nodeName);
 
-    return Array.from(items)
-      .filter(item => item.childNodes.length > 0)
+    return Array.from(node.childNodes)
+      .filter(isValid)
       .map(item => {
-        const def: IPanelListDef = { text: 'Node', children: [] };
+        const [text, children] = Array.from(item.childNodes);
 
-        const firstNode = item.childNodes[0];
-        const firstNodeText = firstNode.textContent;
-
-        if (
-          firstNodeText &&
-          firstNode.nodeType === 3 &&
-          firstNodeText.trim().length
-        ) {
-          def.text = firstNodeText.trim();
-        }
-
-        const subitem = <HTMLUListElement>item.querySelector(':scope > ul');
-
-        if (subitem) def.children = PanelList.createULTree(subitem);
+        const def: IPanelListDef = {
+          text,
+          children: children ? PanelList.createULTree(children) : []
+        };
 
         return def;
       });
@@ -87,7 +59,7 @@ class PanelList extends HTMLUListElement {
       navItem.classList.add('is-navigation');
 
       const back = document.createElement('button');
-      back.innerText = '<';
+      back.innerText = this.getAttribute('data-back') || '<';
 
       back.onclick = () => this.backwardPanel();
 
@@ -97,15 +69,13 @@ class PanelList extends HTMLUListElement {
 
     for (const item of root) {
       const panelItem = document.createElement('li');
-      panelItem.innerText = item.text;
+      panelItem.appendChild(item.text);
 
       if (item.children.length) {
         panelItem.classList.add('has-children');
-        panelItem.innerText = panelItem.innerText + ' >';
         panelItem.onclick = () => this.forwardPanel(item.children);
       } else {
         panelItem.classList.add('is-terminal');
-        panelItem.onclick = () => alert(item.text);
       }
 
       this.appendChild(panelItem);

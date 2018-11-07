@@ -9,6 +9,16 @@
 
   <!-- <link rel="stylesheet" href="dist/styles.css?v=1.0"> -->
 
+  <style type="text/css">
+    ul[is="panel-list"]:not(.is-ready) {
+      display: none;
+    }
+
+    ul[is="panel-list"] .has-children::after {
+      content: ">";
+    }
+  </style>
+
 </head>
 
 <body>
@@ -20,7 +30,7 @@
             <li>Landrove</li>
           </ul>
         </li>
-        <li>Xove
+        <li><a href="http://ber.to">Xove</a>
         </li>
         <li>O Vicedo</li>
       </ul>
@@ -32,7 +42,7 @@
         <li>Trazo</li>
       </ul>
     </li>
-    <li>Ourense</li>
+    <li><span onclick="javascript:alert('ou')">Ourense</span></li>
   </ul>
 
   <script src="dist/main.js" type="module"></script>
