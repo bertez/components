@@ -3,6 +3,7 @@ interface IPanelListDef {
   children: IPanelListDef[];
 }
 
+/** Extends the ul element */
 class PanelList extends HTMLUListElement {
   tree: IPanelListDef[];
   stack: IPanelListDef[][];
@@ -21,10 +22,16 @@ class PanelList extends HTMLUListElement {
     this.removeAttribute('hidden');
   }
 
+  /** Returns las panel in current stack */
   get lastPanel(): IPanelListDef[] {
     return this.stack[this.stack.length - 1];
   }
 
+  /**
+   * Generate a tree of Panels definitions from the ul element
+   * @param node The root ul element
+   * @returns A panel definition
+   * */
   static createULTree = (node: Node): IPanelListDef[] => {
     const isValid = (node: Node) =>
       node.nodeName === 'LI' &&
@@ -46,6 +53,10 @@ class PanelList extends HTMLUListElement {
       });
   };
 
+  /**
+   * Writes a new panel
+   * @param root A panel definition
+   */
   private setPanel = (root: IPanelListDef[]) => {
     this.clearPanel();
 
@@ -96,16 +107,26 @@ class PanelList extends HTMLUListElement {
     }
   };
 
+  /**
+   * Adds panel to the stack and write it
+   * @param root A panel definition
+   */
   forwardPanel = (root: IPanelListDef[]) => {
     this.stack.push(root);
     this.setPanel(root);
   };
 
+  /**
+   * Removes a panel from the stack and writes the last one
+   */
   backwardPanel = () => {
     this.stack.pop();
     this.setPanel(this.lastPanel);
   };
 
+  /**
+   * Clears the element
+   */
   private clearPanel = () => {
     while (this.firstChild) {
       this.firstChild.remove();

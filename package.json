@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsc --watch | browser-sync start --server --files 'dist/*.js'",
+    "doc": "typedoc --out doc src/main.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -12,6 +13,7 @@
   "license": "ISC",
   "devDependencies": {
     "browser-sync": "^2.26.3",
-    "typescript": "^3.1.6"
+    "typescript": "^3.1.6",
+    "typedoc": "^0.13.0"
   }
 }
