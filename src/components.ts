@@ -38,13 +38,17 @@ class PanelList extends HTMLUListElement {
     this.forwardPanel(this.tree);
   }
 
+  get lastPanel(): IPanelListDef[] {
+    return this.stack[this.stack.length - 1];
+  }
+
   static createULTree = (node: HTMLUListElement) => {
     const items = node.querySelectorAll(':scope > li');
 
     return Array.from(items)
       .filter(item => item.childNodes.length > 0)
       .map(item => {
-        const def: IPanelListDef = { children: [] };
+        const def: IPanelListDef = { text: 'Node', children: [] };
 
         const firstNode = item.childNodes[0];
         const firstNodeText = firstNode.textContent;
@@ -115,7 +119,7 @@ class PanelList extends HTMLUListElement {
 
   backwardPanel = () => {
     this.stack.pop();
-    this.setPanel(this.getStackLastElement());
+    this.setPanel(this.lastPanel);
   };
 }
 
