@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <title>Panel List</title>
+
+    <style type="text/css">
+      ul {
+        margin: 0;
+        padding: 0;
+        overflow-y: auto;
+        list-style: none;
+        --color-dark: rgb(0, 0, 0);
+        --color-gray: rgb(200, 200, 200);
+        --color-blue: rgb(0, 123, 255);
+        --item-padding: 0.5rem 1rem;
+        --font-size: 1.2rem;
+      }
+
+      ul li {
+        border-bottom: 1px solid var(--color-gray);
+        font-family: sans-serif;
+        font-size: var(--font-size);
+        display: flex;
+        align-items: center;
+        color: var(--color-dark);
+      }
+
+      ul li * {
+        padding: var(--item-padding);
+        display: flex;
+        flex-grow: 1;
+        box-sizing: border-box;
+      }
+
+      ul li button {
+        cursor: pointer;
+        background: transparent;
+        border: none;
+        font-size: var(--font-size);
+        justify-content: space-between;
+      }
+
+      ul li:not([role='navigation']) button::after {
+        content: '>';
+      }
+
+      ul li a {
+        color: var(--color-blue);
+      }
+
+      ul li:not([role='navigation']) span {
+        font-style: italic;
+        color: var(--color-gray);
+      }
+
+      ul li[role='navigation'] {
+        background: var(--color-gray);
+      }
+
+      ul li[role='navigation'] * {
+        width: 33%;
+        flex-grow: 0;
+        text-align: center;
+      }
+
+      ul li[role='navigation'] span {
+        display: inline-block;
+        text-align: center;
+        font-style: italic;
+      }
+
+      ul li[role='navigation'] button:disabled {
+        visibility: hidden;
+      }
+    </style>
+  </head>
+
+  <body>
+    <ul is="panel-list" data-back="<" hidden>
+      <li>
+        Lugo
+        <ul>
+          <li>Viveiro</li>
+          <li>Xove</li>
+        </ul>
+      </li>
+      <li>
+        A Coruña
+        <ul>
+          <li>Ortigueira</li>
+          <li>Mañón</li>
+        </ul>
+      </li>
+      <li><a href="http://www.ourense.gal">Ourense</a></li>
+      <li>Pontevedra</li>
+    </ul>
+
+    <script type="module">
+      import { PanelList } from '../dist/components.js';
+
+      customElements.define('panel-list', PanelList, { extends: 'ul' });
+    </script>
+  </body>
+</html>

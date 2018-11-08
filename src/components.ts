@@ -53,6 +53,12 @@ class PanelList extends HTMLUListElement {
       });
   };
 
+  static wrapNode = (node: Node, tagName: string) => {
+    const wrapped = document.createElement(tagName);
+    wrapped.appendChild(node);
+    return wrapped;
+  };
+
   /**
    * Writes a new panel
    * @param root A panel definition
@@ -85,7 +91,10 @@ class PanelList extends HTMLUListElement {
         i => i.children === root
       );
 
-      panelTitle && navItem.appendChild(panelTitle.text.cloneNode());
+      panelTitle &&
+        navItem.appendChild(
+          PanelList.wrapNode(panelTitle.text.cloneNode(), 'span')
+        );
     }
 
     this.appendChild(navItem);
@@ -109,8 +118,7 @@ class PanelList extends HTMLUListElement {
         let text = item.text;
 
         if (item.text.nodeName === '#text') {
-          text = document.createElement('span');
-          text.appendChild(item.text);
+          text = PanelList.wrapNode(item.text, 'span');
         }
 
         panelItem.appendChild(text);
