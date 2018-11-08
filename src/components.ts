@@ -12,9 +12,9 @@ class PanelList extends HTMLUListElement {
   constructor() {
     super();
 
+    //Init main class properties
     this.tree = PanelList.createULTree(this as Node);
     this.stack = [];
-
     this.cache = new Map();
 
     this.clearPanel();
@@ -53,7 +53,12 @@ class PanelList extends HTMLUListElement {
       });
   };
 
-  static wrapNode = (node: Node, tagName: string) => {
+  /**
+   * Wraps a Node into another
+   * @param node The node to be wrapped
+   * @param tagName The tagName of the wrapper
+   */
+  static wrapNode = (node: Node, tagName: string): Node => {
     const wrapped = document.createElement(tagName);
     wrapped.appendChild(node);
     return wrapped;
