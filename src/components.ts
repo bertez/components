@@ -79,6 +79,15 @@ class PanelList extends HTMLUListElement {
     back.onclick = () => this.backwardPanel();
 
     navItem.appendChild(back);
+
+    if (this.stack.length > 1) {
+      const panelTitle = this.stack[this.stack.length - 2].find(
+        i => i.children === root
+      );
+
+      panelTitle && navItem.appendChild(panelTitle.text.cloneNode());
+    }
+
     this.appendChild(navItem);
 
     if (this.lastPanel === this.tree) {
@@ -89,7 +98,6 @@ class PanelList extends HTMLUListElement {
 
     for (const item of root) {
       const panelItem = document.createElement('li');
-      panelItem.appendChild(item.text);
 
       if (item.children.length) {
         const next = document.createElement('button');
@@ -98,7 +106,14 @@ class PanelList extends HTMLUListElement {
 
         panelItem.appendChild(next);
       } else {
-        panelItem.appendChild(item.text);
+        let text = item.text;
+
+        if (item.text.nodeName === '#text') {
+          text = document.createElement('span');
+          text.appendChild(item.text);
+        }
+
+        panelItem.appendChild(text);
       }
       const f = this.cache.get(root);
       f && f.push(panelItem);

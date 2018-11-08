@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "tsc --watch | browser-sync start --server --files 'dist/*.js'",
+    "dev": "tsc --watch | browser-sync start --server --files 'dist/*.js' --files index.html",
     "doc": "typedoc --out doc src/main.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
