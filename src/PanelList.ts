@@ -71,6 +71,7 @@ class PanelList extends HTMLUListElement {
   private setPanel = (root: IPanelListDef[]) => {
     this.clearPanel();
 
+    //Check if we have a panel cache and render it
     const rootCache = this.cache.get(root);
 
     if (rootCache && rootCache.length) {
@@ -81,6 +82,7 @@ class PanelList extends HTMLUListElement {
       return;
     }
 
+    //Build navigation
     const navItem = document.createElement('li');
     navItem.setAttribute('role', 'navigation');
 
@@ -91,7 +93,9 @@ class PanelList extends HTMLUListElement {
 
     navItem.appendChild(back);
 
+    //Sets a title if the panel is not initial
     if (this.stack.length > 1) {
+      //We get the title of the previous panel on the stack
       const panelTitle = this.stack[this.stack.length - 2].find(
         i => i.children === root
       );
@@ -102,17 +106,22 @@ class PanelList extends HTMLUListElement {
         );
     }
 
+    //Render navigation
     this.appendChild(navItem);
 
+    //Disable navigation if the panel is initial
     if (this.lastPanel === this.tree) {
       back.setAttribute('disabled', 'disabled');
     }
 
+    //Cache navigation
     this.cache.set(root, [navItem]);
 
+    //Write all the actual panel items
     for (const item of root) {
       const panelItem = document.createElement('li');
 
+      //Render a button if the item has children
       if (item.children.length) {
         const next = document.createElement('button');
         next.appendChild(item.text);
@@ -120,6 +129,7 @@ class PanelList extends HTMLUListElement {
 
         panelItem.appendChild(next);
       } else {
+        //Wrap text on a span if the item does not have children
         let text = item.text;
 
         if (item.text.nodeName === '#text') {
@@ -128,9 +138,11 @@ class PanelList extends HTMLUListElement {
 
         panelItem.appendChild(text);
       }
-      const f = this.cache.get(root);
-      f && f.push(panelItem);
+      //Cache the item
+      const cache = this.cache.get(root);
+      cache && cache.push(panelItem);
 
+      //Render it
       this.appendChild(panelItem);
     }
   };
