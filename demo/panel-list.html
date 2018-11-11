@@ -101,9 +101,8 @@
     </ul>
 
     <script type="module">
-      import { PanelList } from '../dist/PanelList.js';
-
-      customElements.define('panel-list', PanelList, { extends: 'ul' });
+      import By from '../dist/index.js';
+      By(['PanelList']);
     </script>
   </body>
 </html>

@@ -1,0 +1,13 @@
+{
+  "defaultSeverity": "error",
+  "extends": ["tslint:latest", "tslint-config-prettier"],
+  "jsRules": {},
+  "rules": {
+    "quotemark": [true, "single"],
+    "max-classes-per-file": false,
+    "curly": false,
+    "no-console": [true, "log", "table"],
+    "jsdoc-format": false
+  },
+  "rulesDirectory": []
+}

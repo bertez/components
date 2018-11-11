@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <title>Tabs</title>
+
+    <style type="text/css">
+      by-tabs {
+        margin-bottom: 1rem;
+        font-family: sans-serif;
+
+        --color-dark: rgb(0, 0, 0);
+        --color-medium: rgb(200, 200, 200);
+        --color-action: rgb(0, 123, 255);
+        --item-padding: 1rem;
+      }
+
+      by-tabs > by-tab {
+        background: var(--color-medium);
+        padding: var(--item-padding);
+        cursor: pointer;
+      }
+
+      by-tabs > by-panel {
+        border: 1px solid var(--color-medium);
+        padding: var(--item-padding);
+      }
+
+      by-tabs > by-tab[selected] {
+        background: var(--color-action);
+        color: white;
+      }
+
+      by-tabs:not(:defined) {
+        display: block;
+      }
+
+      by-tabs:not(:defined) > * {
+        display: block;
+      }
+    </style>
+  </head>
+
+  <body>
+    <by-tabs role="dialog" id="main-tabs">
+      <by-tab slot="title" role="heading">First</by-tab>
+      <by-panel slot="content" role="region">
+        The content is cool as well!
+      </by-panel>
+
+      <by-tab slot="title" role="heading">Second</by-tab>
+      <by-panel slot="content" role="region">
+        <img src="https://i.imgur.com/opzcROn.gif" />
+      </by-panel>
+    </by-tabs>
+
+    <by-tabs role="dialog">
+      <by-tab slot="title" role="heading">First</by-tab>
+      <by-panel slot="content" role="region">
+        The content is cool as well!
+      </by-panel>
+
+      <by-tab slot="title" role="heading" selected>Second</by-tab>
+      <by-panel slot="content" role="region">
+        <img src="https://i.imgur.com/opzcROn.gif" />
+      </by-panel>
+
+      <by-tab slot="title" role="heading">Third</by-tab>
+      <by-panel slot="content" role="region"> <h1>Memories</h1> </by-panel>
+    </by-tabs>
+
+    <script type="module">
+      import By from '../dist/index.js';
+      By(['ByTabs']);
+    </script>
+  </body>
+</html>

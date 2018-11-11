@@ -5,14 +5,13 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsc --watch | browser-sync start --server --files 'dist/*.js' --files demo/*.html",
-    "doc": "typedoc --out doc src/main.ts",
+    "doc": "typedoc --out doc src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@webcomponents/custom-elements": "^1.2.1",
     "browser-sync": "^2.26.3",
     "typedoc": "^0.13.0",
     "typescript": "^3.1.6"
