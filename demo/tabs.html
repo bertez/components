@@ -20,7 +20,6 @@
       by-tabs > by-tab {
         background: var(--color-medium);
         padding: var(--item-padding);
-        cursor: pointer;
       }
 
       by-tabs > by-panel {
@@ -44,32 +43,34 @@
   </head>
 
   <body>
-    <by-tabs role="dialog" id="main-tabs">
-      <by-tab slot="title" role="heading">First</by-tab>
-      <by-panel slot="content" role="region">
-        The content is cool as well!
-      </by-panel>
+    <main>
+      <by-tabs id="main-tabs">
+        <by-tab slot="title" role="heading">First</by-tab>
+        <by-panel slot="content" role="region">
+          The content is cool as well!
+        </by-panel>
 
-      <by-tab slot="title" role="heading">Second</by-tab>
-      <by-panel slot="content" role="region">
-        <img src="https://i.imgur.com/opzcROn.gif" />
-      </by-panel>
-    </by-tabs>
+        <by-tab slot="title" role="heading">Second</by-tab>
+        <by-panel slot="content" role="region">
+          <img src="https://i.imgur.com/opzcROn.gif" alt="random gif" />
+        </by-panel>
+      </by-tabs>
 
-    <by-tabs role="dialog">
-      <by-tab slot="title" role="heading">First</by-tab>
-      <by-panel slot="content" role="region">
-        The content is cool as well!
-      </by-panel>
+      <by-tabs role="tablist">
+        <by-tab slot="title" role="heading">First</by-tab>
+        <by-panel slot="content" role="region">
+          The content is cool as well!
+        </by-panel>
 
-      <by-tab slot="title" role="heading" selected>Second</by-tab>
-      <by-panel slot="content" role="region">
-        <img src="https://i.imgur.com/opzcROn.gif" />
-      </by-panel>
+        <by-tab slot="title" role="heading" selected>Second</by-tab>
+        <by-panel slot="content" role="region">
+          <code>document.write('😲');</code>
+        </by-panel>
 
-      <by-tab slot="title" role="heading">Third</by-tab>
-      <by-panel slot="content" role="region"> <h1>Memories</h1> </by-panel>
-    </by-tabs>
+        <by-tab slot="title" role="heading">Third</by-tab>
+        <by-panel slot="content" role="region"> <h1>Memories</h1> </by-panel>
+      </by-tabs>
+    </main>
 
     <script type="module">
       import By from '../dist/index.js';

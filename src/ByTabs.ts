@@ -1,5 +1,5 @@
 /**
- * @class ByTab defines a tab component
+ * @class ByTab represents a tab component
  */
 class ByTab extends HTMLElement {
   // Internal instance counter
@@ -50,7 +50,7 @@ class ByTab extends HTMLElement {
 }
 
 /**
- * @class ByPanel defines a panel component
+ * @class ByPanel represents a panel component
  */
 class ByPanel extends HTMLElement {
   // Internal instance counter
@@ -71,7 +71,7 @@ class ByPanel extends HTMLElement {
 }
 
 /**
- * @class ByTabs defines a complete tabs component
+ * @class ByTabs represents a complete tabs component
  */
 class ByTabs extends HTMLElement {
   // Recognized keycodes
@@ -281,7 +281,7 @@ class ByTabs extends HTMLElement {
 
   /**
    * @param tab A tab component
-   * @returns The panel component related to the tab
+   * @returns The panel component related to the tab if exists
    */
   private getPanelForTab = (tab: ByTab): ByPanel | undefined => {
     const panel = this.panels.find(

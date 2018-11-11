@@ -14,8 +14,8 @@
         list-style: none;
 
         --color-dark: rgb(0, 0, 0);
-        --color-medium: rgb(200, 200, 200);
-        --color-action: rgb(0, 123, 255);
+        --color-medium: rgb(150, 150, 150);
+        --color-action: rgb(0, 70, 150);
         --item-padding: 0.5rem 1rem;
         --font-size: 1.2rem;
         --font-family: sans-serif;
@@ -81,25 +81,26 @@
   </head>
 
   <body>
-    <ul is="panel-list" data-back="<" hidden>
-      <li>
-        Lugo
-        <ul>
-          <li>Viveiro</li>
-          <li>Xove</li>
-        </ul>
-      </li>
-      <li>
-        A Coruña
-        <ul>
-          <li>Ortigueira</li>
-          <li>Mañón</li>
-        </ul>
-      </li>
-      <li><a href="http://www.ourense.gal">Ourense</a></li>
-      <li>Pontevedra</li>
-    </ul>
-
+    <main>
+      <ul role="region" is="panel-list" data-back="<" hidden>
+        <li>
+          Lugo
+          <ul>
+            <li>Viveiro</li>
+            <li>Xove</li>
+          </ul>
+        </li>
+        <li>
+          A Coruña
+          <ul>
+            <li>Ortigueira</li>
+            <li>Mañón</li>
+          </ul>
+        </li>
+        <li><a href="http://www.ourense.gal">Ourense</a></li>
+        <li>Pontevedra</li>
+      </ul>
+    </main>
     <script type="module">
       import By from '../dist/index.js';
       By(['PanelList']);
